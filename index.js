@@ -1,6 +1,6 @@
 'use strict';
 
-if (process.addAsyncListener) throw new Error("Don't require polyfill unless needed");
+if (process.addAsyncListener2) throw new Error("Don't require polyfill unless needed");
 
 var shimmer      = require('shimmer')
   , wrap         = shimmer.wrap
@@ -284,7 +284,7 @@ var instrumentPromise = !!global.Promise;
 // Check that global Promise is native
 if (instrumentPromise) {
   // shoult not use any methods that have already been wrapped
-  var promiseListener = process.addAsyncListener({
+  var promiseListener = process.addAsyncListener2({
     create: function create() {
       instrumentPromise = false;
     }
@@ -295,7 +295,7 @@ if (instrumentPromise) {
     instrumentPromise = false;
   });
 
-  process.removeAsyncListener(promiseListener);
+  process.removeAsyncListener2(promiseListener);
 }
 
 /*

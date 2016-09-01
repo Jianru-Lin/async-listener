@@ -12,7 +12,7 @@ var HAS_ERROR_AL = 1 << 3;
 
 /**
  * There is one list of currently active listeners that is mutated in place by
- * addAsyncListener and removeAsyncListener. This complicates error-handling,
+ * addAsyncListener2 and removeAsyncListener2. This complicates error-handling,
  * for reasons that are discussed below.
  */
 var listeners = [];
@@ -436,7 +436,7 @@ AsyncListener.prototype.data   = undefined;
 AsyncListener.prototype.uid    = 0;
 AsyncListener.prototype.flags  = 0;
 
-function createAsyncListener(callbacks, data) {
+function createAsyncListener2(callbacks, data) {
   if (typeof callbacks !== 'object' || !callbacks) {
     throw new TypeError('callbacks argument must be an object');
   }
@@ -449,10 +449,10 @@ function createAsyncListener(callbacks, data) {
   }
 }
 
-function addAsyncListener(callbacks, data) {
+function addAsyncListener2(callbacks, data) {
   var listener;
   if (!(callbacks instanceof AsyncListener)) {
-    listener = createAsyncListener(callbacks, data);
+    listener = createAsyncListener2(callbacks, data);
   }
   else {
     listener = callbacks;
@@ -472,7 +472,7 @@ function addAsyncListener(callbacks, data) {
   return listener;
 }
 
-function removeAsyncListener(listener) {
+function removeAsyncListener2(listener) {
   for (var i = 0; i < listeners.length; i++) {
     if (listener === listeners[i]) {
       listeners.splice(i, 1);
@@ -481,8 +481,8 @@ function removeAsyncListener(listener) {
   }
 }
 
-process.createAsyncListener = createAsyncListener;
-process.addAsyncListener    = addAsyncListener;
-process.removeAsyncListener = removeAsyncListener;
+process.createAsyncListener2 = createAsyncListener2;
+process.addAsyncListener2    = addAsyncListener2;
+process.removeAsyncListener2 = removeAsyncListener2;
 
 module.exports = wrapCallback;
